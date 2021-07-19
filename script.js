@@ -45,8 +45,8 @@ var timeRange = [8, 9, 10, 11, 12, 1, 2, 3, 4, 5];
 
 // localStorage.getItem("event8");
 
-var event8 = document.querySelector("#8-am");
-var btn8 = document.querySelector("#btn-8");
+var event8 = document.getElementById("8-am");
+var btn8 = document.getElementById("btn-8");
 
 function saveEvent() {
     var allEvent = {
@@ -65,7 +65,7 @@ btn8.addEventListener("click", function(event) {
     event.preventDefault();
     saveEvent();
     renderEvent();
-    });
+});
 
 
 
