@@ -4,7 +4,7 @@
 // console.log(timeDisplayEl);
 
 
-
+// glocal var for each textarea and button
 var event8 = document.getElementById("time1");
 var event9 = document.getElementById("time2");
 var event10 = document.getElementById("time3");
@@ -31,37 +31,21 @@ var btn5 = document.getElementById("btn-5");
 // timeDisplayEl.text(moment().format("MMMM Do YYYY, h:mm:ss a"));
 var currentTime = $('#currentDay');
 
+// display current time by second
 function displayTime() {
     currentTime.text(moment().format(" MMMM Do YYYY, h:mm:ss a"));
 };
 setInterval(displayTime, 1000);
 
 // set time range to an array to interate later
-// var timeRange = ["8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
-
 var timeRange = ["8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
-// fucntion displayTime() {
-//     currentTime.text(moment().calendar(null, {
-//     sameDay: '[Today]',
-//     });
-// }
+
+// retrieve current time in hour and minute format for comparing with time slots on scheduler
 var now = moment().format(" H:mm");
 console.log(typeof now);
-var timeSlot = document.getElementById("8am");
 
-// function displayColor() {
-//     moment().calendar({
-//         sameDay: function (now) {
-//         if (this.isBefore(now)) {
-//             event8.textContent =  '[Will Happen Today]';
-//         } else {
-//             event8.textContent = '[Happened Today]';
-//         }
-//         /* ... */
-//         }
-//     })
-// }
 
+// For future reference
 // function displayColor() {
 //     for (var i = 0; i < timeRange.length; i++) {
 //         // if (timeRange[i] === now) {
@@ -70,7 +54,7 @@ var timeSlot = document.getElementById("8am");
 //         console.log(moment(timeRange[i]).isBefore(now))
 //         console.log(moment(timeRange[i], "H:mm"))
 //         if (moment(timeRange[i]).isBefore(now)) {
-//             document.querySelector("#time" + (i + 1)).classList.add("pass");
+//             document.querySelector("#time" + (i + 1)).classList.add("past");
 //         } else if (moment(timeRange[i]).isAfter(now)){
 //             document.querySelector("#time" + (i + 1)).classList.add("future");
 //         } else {
@@ -88,7 +72,7 @@ var timeSlot = document.getElementById("8am");
 //         console.log("givenTime: ", givenTime);
 //         console.log("currentTime: ", currentTime);
 //         if (moment(givenTime).isBefore(currentTime)) {
-//             document.querySelector("#time" + (i + 1)).classList.add("pass");
+//             document.querySelector("#time" + (i + 1)).classList.add("past");
 //         } else if (moment(givenTime).isAfter(currentTime)){
 //             document.querySelector("#time" + (i + 1)).classList.add("future");
 //         } else {
@@ -97,11 +81,18 @@ var timeSlot = document.getElementById("8am");
 //     }
 // }
 
+
+
+
+
+// COndition method to color code past, present, future
 function displayColor() {
+    // current time is retrieved in hour only format
     let currentTime = parseInt(moment(now, "H").format("H"));
     let givenTime;
-    
+    // loop through timeRange to compare each time slot to currenTime 
     for (var i = 0; i < timeRange.length; i++) {
+        // parse each string in timeRange and return only the integer to compare with currentTime
         givenTime = parseInt(moment(timeRange[i], "H").format("H"));
        
         console.log("givenTime: ", givenTime);
@@ -120,39 +111,8 @@ function displayColor() {
 }
 displayColor();
 
-// COndition method to color code past, present, future
-// if past, grey
-// if present, green
-//  if future, yellow
 
-// current time in hour format
-// function currentHour() {
-//     var now = moment().hour();
-
-// MMMM Do YYYY, h:mm:ss a
-
-
-//     for (i = 0; i < timeRange.length; i++) {
-//     if (i == currentTime)
-//     }:00
-// }
-
-
-// var event8 = document.querySelector('#am');
-// event8.textContent = eventAt8;
-// event listerner to each time slot to save event to local storage
-// Identify key and value
-// JSON to stringtify aND parse ;
-
-
-// btn8.addEventListener("click", function() {
-//     localStorage.setItem("event8", eventAt8);
-// }); 
-
-// localStorage.getItem("event8");
-
-
-
+// For future reference
 // function showEvents() {
 //     for (let i = 0; i < allEvents.length; i++) {
 //       document.querySelector('#time' + (i + 1)).value = allEvents[i]['time' + (i + 1)];
@@ -162,6 +122,7 @@ displayColor();
 
 
 function saveEvent() {
+    // Save event data as an object
     var allEvent = {
         event8: event8.value.trim(),
         event9: event9.value.trim(),
@@ -174,20 +135,37 @@ function saveEvent() {
         event4: event4.value.trim(),
         event5: event5.value.trim(),
     };
+    // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
     localStorage.setItem("allEvent", JSON.stringify(allEvent));
 }
 
 function renderEvent() {
     // Use JSON.parse() to convert text to JavaScript object
     var lastEvent = JSON.parse(localStorage.getItem("allEvent"));
-    document.getElementById("")
+    // Check if data is returned, if not exit out of the function
+    if (lastEvent !== null) {
+        // set textContent to the text coming back from localStorage
+        event8.textContent = lastEvent.event8;
+        event9.textContent = lastEvent.event9;
+        event10.textContent = lastEvent.event10;
+        event11.textContent = lastEvent.event11;
+        event12.textContent = lastEvent.event12;
+        event1.textContent = lastEvent.event1;
+        event2.textContent = lastEvent.event2;
+        event3.textContent = lastEvent.event3;
+        event4.textContent = lastEvent.event4;
+        event5.textContent = lastEvent.event5;
+    } else {
+        return;
+    }
 }
 
+// listen to click on each save button to execute saveEvent and renderEvent
 btn8.addEventListener("click", function(event) {
     event.preventDefault();
     saveEvent();
     renderEvent();
-    event8.textContent = event8.value;
+    
 });
 btn9.addEventListener("click", function(event) {
     event.preventDefault();
@@ -235,24 +213,10 @@ btn5.addEventListener("click", function(event) {
     renderEvent();
 });
 
+// The init() function fires when the page is loaded 
+function init () {
+    // When the init function is executed, the code inside renderEvent function will also execute
+    renderEvent();
+}
+init();
 
-
-
-// // This function is being called below and will run when the page loads.
-// function init() {
-//     // Get stored todos from localStorage
-//     var storedTodos = JSON.parse(localStorage.getItem("todos"));
-  
-//     // If todos were retrieved from localStorage, update the todos array to it
-//     if (storedTodos !== null) {
-//       todos = storedTodos;
-//     }
-  
-//     // This is a helper function that will render todos to the DOM
-//     renderTodos();
-//   }
-  
-//   function storeTodos() {
-//     // Stringify and set key in localStorage to todos array
-//     localStorage.setItem("todos", JSON.stringify(todos));
-//   }
